@@ -1,49 +1,45 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
-#include "queuear.h"
-
 class Symbol{
 public:
 	// Construtor que cria um símbolo vazio.
-	Symbol (void){
-		symbol = "";
-		isOpnd = true;
-		column = -1;
-	}
+	Symbol (void);
 	
 	// Construtor da classe Symbol.
-	Symbol (std::string *_symbol, bool *_isOpnd, int *_column){
-		symbol = _symbol;
-		isOpnd = _isOpnd;
-		column = _column;
-	}
+	Symbol (std::string, bool, int);
 	
+	/*
 	// Retorna se o símbolo é operando ou não.
-	bool isOperand (std::string *_symbol){
-		return _symbol == "+" || "-" || "." || "/";
-	}
-	
+	bool isOperand (std::string);
+
+	// Retorna se o símbolo é número ou não.
+	bool isNumber (std::string);
+
+	// Retorna se o símbolo é espaço em branco ou não.
+	bool isWhiteSpace (std::string _symbol);
+	*/
+
 	// Conversão do símbolo em inteiro. Retorna o valor.
-	int getValue (void){
-		// Converter aqui.
-		return symbol;
-	}
+	int getValue (void);
 
 	// Retorna o operador.
-	std::string getOperator (void){
-		return symbol;
-	}
+	std::string getOperator (void);
 	
 	// Retorna a coluna do operador.
-	int getColumn (void){
-		return column;
-	}
+	int getColumn (void);
 	
 private:
-	std::string symbol; // String para armazenar o símbolo.
-	bool isOpnd; // Variável para indicar se é operando (verdadeiro) ou operador (falso).
-	int column; // Variável para indicar a coluna do símbolo.
+	// String para armazenar o símbolo.
+	std::string symbol;
+
+	// Variável para indicar se é operando (verdadeiro) ou operador (falso).
+	bool isOpnd;
+
+	// Variável para indicar a coluna do símbolo.
+	int column;
 };
+
+#include "symbol.inl"
 
 #endif

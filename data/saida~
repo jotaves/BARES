@@ -1,0 +1,49 @@
+   25    /   5 + 4 *    8   
+(2+3) * 8
+5 % 2 ^4
+ (5 % 2) ^4
+((5-2))
+(5-2))
+
+10000000 - 2
+Numeric constant out of range: column 1.
+2+
+Ill-formed expression or missing term detected: column 3.
+3 * d
+Ill-formed expression or missing term detected: column 5.
+2 = 3
+Invalid operand: column 3.
+2.3 + 4
+Invalid operand: column 2.
+2 * 3 4
+Extraneous symbol: column 7.
+2 ** 3
+Lost operator: column 4.
+%5 * 10
+Lost operator: column 1.
+*5 * 10
+Lost operator: column 1.
+/5 * 10
+Lost operator: column 1.
+(2+3)*/(1-4)
+Lost operator: column 7.
+(-3*4)(10*5)
+Extraneous symbol: column 7.
+2 - 4)
+Mismatch ')': column 6.
+2) - 4
+Mismatch ')': column 2.
+)2 - 4
+Mismatch ')': column 1.
+((2%3) * 8
+Missing closing ')' to match opening '(' at: column 1.
+ 3/(1-1)
+Division by zero!
+10/(3*3^-2)
+Division by zero!
+20*20000
+Numeric overflow error!
+37
+40
+5
+1

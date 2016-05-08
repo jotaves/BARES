@@ -22,13 +22,13 @@ void QueueAr< Object >::enqueue ( const Object & _x ){
 	else {
 		// Se back for menor que front e a posição do próximo elemento a ser incluído for igual a front.
 		if( back < front && _xPos == front ){
-			cout << "Resizing (case 1)...\n";				
+			//cout << "Resizing (case 1)...\n";				
 			resize();
 			_xPos = ( back+1 ) % capacity;
 		}
 		else if ( back+1 == capacity && _xPos == front ){
 			_xPos = capacity;
-			cout << "Resizing (case 2)...\n";			
+			//cout << "Resizing (case 2)...\n";			
 			resize();
 			_xPos = ( back+1 ) % capacity;
 		}

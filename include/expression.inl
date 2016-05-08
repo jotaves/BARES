@@ -11,7 +11,7 @@ void Expression::tokenize (){
 
 	unsigned int foundParenthesis1 = 0;
 	unsigned int foundParenthesis2 = 0;
-
+	std::string onlyParenthesis = "";
 
 	for (auto i(0u); i < origExpr.size(); i++){
 
@@ -20,10 +20,14 @@ void Expression::tokenize (){
 			foundParenthesis2++;			
 
 			if (foundParenthesis2 > foundParenthesis1){
+				// Envia a coluna e o código do erro. A função que receber vai escolher o que aparece primeiro.
+				// Tipo: if (_col < _menorcol) _menorcol = _col; cod_error = _cod. 
 				cout << "Mismatch ’)’: column " << i+1 << ".\n";
 				break;
 			}
 
+			onlyParenthesis += ')';
+			
 			Symbol s (")", true, i);
 			expression.enqueue(s);
 			continue;
@@ -34,53 +38,20 @@ void Expression::tokenize (){
 			//cout << "Initial parenthesis found!\n";		
 			foundParenthesis1++;
 
-			// Quando um '(' for encontrado, será feita uma varredura por ')' correspondentes.
-			// Se for encontrado mais '(' que ')', o processo é parado e é retornado onde deve-se fechar o parênteses.
-			// 
-			auto j(0u);
-			auto countp1(0);
-			auto countp2(0);
-			auto lastp1(0u);
-			auto lastp2(0u);
+			onlyParenthesis += '(';
 
-			while(j < origExpr.size()){
-				if (origExpr[j] == '('){
-					countp1++;
-					lastp1 = j;
-				}
-				if (origExpr[j] == ')'){
-					countp2++;
-					lastp2 = j;
+			auto j(0u);
+			bool notFoundPar = true;
+			while (j < onlyParenthesis.size()*onlyParenthesis.size()){
+				if (onlyParenthesis[j] == '(' and onlyParenthesis[j+1] == ')'){
+					delete onlyParenthesis[j];
+					delete onlyParenthesis[j+1];
 				}
 				j++;
 			}
-
-			auto pmissing(0);
-			if (countp1 > countp2){ // Se tiver mais '(' que ')' na expressão
-				
-				if (countp2 == 0){ // Se não tiver ')' na expressão, retorna a posição do parênteses a ser fechado (o último que foi aberto).
-					cout <<	"Missing closing ')' to match opening '(' at: column " << lastp1+1 << ".\n";
-					break;
-				}
-
-				// Se tiver um ou mais ')' na expressão, fará o processo abaixo
-				j = lastp2; // j recebe a posição do último ')'
-				while(countp2 != 0){ // Enquanto o contador de ')' não zerar, vai procurando por '(' correspondentes.
-					if (origExpr[j] == '('){
-						pmissing = j;
-						countp2--;
-					}
-					j--;
-				}
-
-				if (pmissing == 0){ // Se pmissing == 0, significa que tem outros '(' na frente, pois o número de '(' antes do último ')' é a mesma quantidade do total de ')' na expressão. Logo o último parêntese aberto deve ser o primeiro a ser fechado.
-					cout <<	"Missing closing ')' to match opening '(' at: column " << lastp1+1 << ".\n";
-					break;
-				}
-
-				// Caso countp1 > countp2 do último ')' para o início, então dirá a posição do parêntese que falta.
-				cout <<	"Missing closing ')' to match opening '(' at: column " << pmissing << ".\n";	
-				break;				
+			j=0;
+			while (onlyParenthesis[j] != '('){
+				j++;
 			}
 
 			Symbol s ("(", true, i);
@@ -140,4 +111,5 @@ void Expression::tokenize (){
 			continue;
 		}
 	}
+	cout << onlyParenthesis << "\n";
 }

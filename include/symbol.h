@@ -9,16 +9,14 @@ public:
 	// Construtor da classe Symbol.
 	Symbol (std::string, bool, int);
 	
-	/*
+	// Retorna se o símbolo é operador ou não.
+	bool isOperator ();
+
 	// Retorna se o símbolo é operando ou não.
-	bool isOperand (std::string);
+	bool isOperand ();
 
-	// Retorna se o símbolo é número ou não.
-	bool isNumber (std::string);
-
-	// Retorna se o símbolo é espaço em branco ou não.
-	bool isWhiteSpace (std::string _symbol);
-	*/
+	// Retorna se o símbolo é um operador unário.
+	bool isUnary();
 
 	// Conversão do símbolo em inteiro. Retorna o valor.
 	int getValue (void);
@@ -28,6 +26,12 @@ public:
 	
 	// Retorna a coluna do operador.
 	int getColumn (void);
+
+    inline friend std::ostream &operator<< (std::ostream& _os, const Symbol& _oList )
+    {
+        _os << _oList.symbol;
+        return _os;
+    }
 	
 private:
 	// String para armazenar o símbolo.

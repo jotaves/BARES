@@ -4,6 +4,8 @@
 #include "queuear.h"
 #include "symbol.h"
 
+#include <iostream>
+
 class Expression{
 public:
 	Expression (std::string _expression){
@@ -14,6 +16,12 @@ public:
 
 	// Tokeniza a expressão.
 	void tokenize ();
+
+	// Imprimir a fila de símbolos feita.
+	void printqueue(){
+		cout << expression;
+	}
+
 private:
 	// String para guardar a expressão original.
 	std::string origExpr;

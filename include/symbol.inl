@@ -25,18 +25,19 @@ int Symbol::getColumn (void){
 	return column;
 }
 
-/*bool Symbol::isOperand (std::string _symbol){
-	return _symbol == "+" or _symbol == "-" or _symbol == "%" or _symbol == "*" or _symbol == "/" or _symbol == "^";
+bool Symbol::isOperator (){
+	//return symbol == "+" or symbol == "-" or symbol == "%" or symbol == "*" or symbol == "/" or symbol == "^";
+	return isOpnd;
 }
 
-bool Symbol::isNumber (std::string _symbol){
-	for (auto i(0u); i < _symbol.size(); i++){
-		if (_symbol[i] > '0'-1 and _symbol[i] < '9'-1) continue;
+bool Symbol::isOperand (){
+	for (auto i(0u); i < symbol.size(); i++){
+		if (symbol[i] > '0'-1 and symbol[i] < '9'-1) continue;
 		else return false;
 	}
 	return true;
 }
 
-bool Symbol::isWhiteSpace (std::string _symbol){
-	return 0;
-}*/
+bool Symbol::isUnary (){
+	return symbol == "+" or symbol == "-";
+}

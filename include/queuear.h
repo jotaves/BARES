@@ -20,31 +20,31 @@ class QueueAr {
 		bool isEmpty ( void ) const;
 		void makeEmpty ( void );
         
-        /*inline friend std::ostream &operator<< (std::ostream& _os, const QueueAr<Object>& _oList )
+        inline friend std::ostream &operator<< (std::ostream& _os, const QueueAr<Object>& _oList )
         {
         	if ( _oList.back == -1 ) { _os << "[ ]"; return _os; } // olocar erro.
         	if ( _oList.back >= _oList.front ){
-            _os << "[ ";
+            _os << "[";
 	            for( int i(_oList.front) ; i <= _oList.back ; ++i )
-	                _os << "{" << _oList.P[ i ] << "} ";
+	                _os << _oList.P[ i ];
 	            _os << "]";
 	            return _os;        		
         	}
 
         	else{ //_oList.front > _oList.back
-	            _os << "[ ";
+	            _os << "[";
 
 	            for( int i(_oList.front) ; i < _oList.capacity ; ++i )
-	                _os << "{" << _oList.P[ i ] << "} ";
+	                _os << _oList.P[ i ];
 
 	            for( int i(0) ; i <= _oList.back ; ++i )
-	                _os << "{" << _oList.P[ i ] << "} ";
+	                _os << _oList.P[ i ];
 	            _os << "]";
 
 	            return _os;
         	}
         	return _os;
-        }*/
+        }
 
 	private:
 		void resize();

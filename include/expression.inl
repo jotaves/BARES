@@ -21,6 +21,10 @@ void Expression::tokenize (){
 			//cout << "Final parenthesis found!\n";
 			foundParenthesis--;
 			lastParenthesis1 = i;
+
+			Symbol s (")", true, i);
+			expression.enqueue(s);
+
 			if (i+1 != origExpr.size()) continue; // Se não for o último elemento da string, continua.
 		}
 
@@ -30,6 +34,10 @@ void Expression::tokenize (){
 			ant = lastParenthesis2;
 			lastParenthesis2 = i;			
 			foundParenthesis++;
+
+			Symbol s ("(", true, i);
+			expression.enqueue(s);
+
 			//cout << "Found: " << foundParenthesis << "\n";
 			if (i+1 != origExpr.size()) continue; // Se não for o último elemento da string, continua.
 		}
@@ -55,11 +63,28 @@ void Expression::tokenize (){
 		// Looking for operators.
 		if (origExpr[i] == '+' or origExpr[i] == '-' or origExpr[i] == '%' or origExpr[i] == '*' or origExpr[i] == '/' or origExpr[i] == '^' ){
 			//cout << "Operator found!\n";
+			std::string oper = "";
+			oper += origExpr[i];
+			Symbol s (oper, true, i);
+			expression.enqueue(s);			
 			continue;
 		}
 
 		// Looking for numbers.
 		if (origExpr[i] > '0'-1 and origExpr[i] < '9'+1){
+			std::string number = "";
+			// Prestar atenção aqui. Possível bug após o fim do while.
+			while (origExpr[i] > '0'-1 and origExpr[i] < '9'+1){
+				number += origExpr[i];
+				//cout << number << "\n";
+				i++;
+			}
+
+			Symbol s (number, false, i);
+			expression.enqueue(s);
+
+			i--; // Para não pular o próximo elemento, já que while só termina quando o elemento não for número.
+
 			//cout << "Number found!\n";
 			continue;
 		}

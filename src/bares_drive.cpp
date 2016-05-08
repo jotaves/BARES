@@ -38,6 +38,7 @@ int main(int argc, char * argv[]){
     	cout << line << "\n";
         Expression e (line);
         e.tokenize();
+        e.printqueue();
     }
 
     return 0;

@@ -11,7 +11,30 @@ void Expression::tokenize (){
 
 	unsigned int foundParenthesis1 = 0;
 	unsigned int foundParenthesis2 = 0;
+	
+	// LOOKING FOR '(' ERRORS
 	std::string onlyParenthesis = origExpr;
+	// Substitui '(' por '1' e ')' por '(', assim, se sobrar algum no final, haverá erro.
+	if (onlyParenthesis.size()>0){
+		for (auto j(onlyParenthesis.size()-1); j > 0; j--){
+			if(onlyParenthesis[j] == ')'){
+				onlyParenthesis[j] = '1';
+				for(int k(j-1); k >= 0; k--){
+					if(onlyParenthesis[k] == '('){
+						onlyParenthesis[k] = '2';
+						j = onlyParenthesis.size()-1;
+						break;
+					}
+				}
+			}
+		}
+		for(auto i(0u); i < onlyParenthesis.size(); i++){
+			if(onlyParenthesis[i] == '('){
+				cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << i+1 << "\n";
+				return;
+			}
+		}
+	}
 
 	for (auto i(0u); i < origExpr.size(); i++){
 
@@ -79,26 +102,5 @@ void Expression::tokenize (){
 			continue;
 		}
 	}
-		// SEEING PARENTHESIS
-		if (onlyParenthesis.size()>0){
-			for (auto j(onlyParenthesis.size()-1); j > 0; j--){
-				if(onlyParenthesis[j] == ')'){
-					onlyParenthesis[j] = ']';
-					for(auto k(j-1); k >= 0; k--){
-						if(onlyParenthesis[k] == '('){
-							onlyParenthesis[k] = '[';
-							j = onlyParenthesis.size()-1;
-							break;
-						}
-					}
-				}
-			}
-			for(auto i(0u); i < onlyParenthesis.size(); i++){
-				if(onlyParenthesis[i] == '('){
-					cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << i+1 << "\n";
-					break;
-				}
-			}
-		}
-	cout << onlyParenthesis << "\n";
+	//cout << onlyParenthesis << "\n";
 }

@@ -11,7 +11,7 @@ void Expression::tokenize (){
 
 	unsigned int foundParenthesis1 = 0;
 	unsigned int foundParenthesis2 = 0;
-	std::string onlyParenthesis = "";
+	std::string onlyParenthesis = origExpr;
 
 	for (auto i(0u); i < origExpr.size(); i++){
 
@@ -25,8 +25,6 @@ void Expression::tokenize (){
 				cout << "Mismatch ’)’: column " << i+1 << ".\n";
 				break;
 			}
-
-			onlyParenthesis += ')';
 			
 			Symbol s (")", true, i);
 			expression.enqueue(s);
@@ -36,23 +34,8 @@ void Expression::tokenize (){
 		// Looking for initial parenthesis and counting.
 		if (origExpr[i] == '('){
 			//cout << "Initial parenthesis found!\n";		
+			
 			foundParenthesis1++;
-
-			onlyParenthesis += '(';
-
-			auto j(0u);
-			bool notFoundPar = true;
-			while (j < onlyParenthesis.size()*onlyParenthesis.size()){
-				if (onlyParenthesis[j] == '(' and onlyParenthesis[j+1] == ')'){
-					delete onlyParenthesis[j];
-					delete onlyParenthesis[j+1];
-				}
-				j++;
-			}
-			j=0;
-			while (onlyParenthesis[j] != '('){
-				j++;
-			}
 
 			Symbol s ("(", true, i);
 			expression.enqueue(s);
@@ -60,21 +43,6 @@ void Expression::tokenize (){
 			//cout << "Found: " << foundParenthesis << "\n";
 			continue;
 		}
-
-		/*
-		// Se chegar no final da string e o saldo de parênteses for positivo. Se não, continua.
-		if (foundParenthesis > 0 and i+1 == origExpr.size()){
-			// j contará a posição do do parêntese que precisa ser fechado.
-			auto j(0);
-			while(foundParenthesis != 0){ // Enquanto o saldo de parênteses for menor que 0.
-				if (origExpr[j] == '('){
-					foundParenthesis--; // Se encontrar um parênteses, diminui o saldo.
-				}
-				j++;
-			}
-			cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << j << "\n";
-			break;
-		}*/
 
 		// Looking for white space.
 		if (origExpr[i] == ' '){
@@ -111,5 +79,26 @@ void Expression::tokenize (){
 			continue;
 		}
 	}
+		// SEEING PARENTHESIS
+		if (onlyParenthesis.size()>0){
+			for (auto j(onlyParenthesis.size()-1); j > 0; j--){
+				if(onlyParenthesis[j] == ')'){
+					onlyParenthesis[j] = ']';
+					for(auto k(j-1); k >= 0; k--){
+						if(onlyParenthesis[k] == '('){
+							onlyParenthesis[k] = '[';
+							j = onlyParenthesis.size()-1;
+							break;
+						}
+					}
+				}
+			}
+			for(auto i(0u); i < onlyParenthesis.size(); i++){
+				if(onlyParenthesis[i] == '('){
+					cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << i+1 << "\n";
+					break;
+				}
+			}
+		}
 	cout << onlyParenthesis << "\n";
 }

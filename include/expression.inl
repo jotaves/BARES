@@ -256,7 +256,7 @@ void verify (void){
 
 int Expression::prcd(Symbol a){
 	std::string c = a.getOperator();
-	if 		(c == "(") return 6;
+	if 		(c == "(") return 1;
 	else if (c == ")") return 1;
 	else if (c == "+") return 5;
 	else if (c == "-") return 5;

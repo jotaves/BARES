@@ -256,12 +256,14 @@ void verify (void){
 
 int Expression::prcd(Symbol a){
 	std::string c = a.getOperator();
+	//cout << "teste: " << a.getOperator() << "\n";
 	if 		(c == "(") return 1;
 	else if (c == ")") return 1;
-	else if (c == "+") return 5;
-	else if (c == "-") return 5;
+	else if (c == "^") return 3;
 	else if (c == "/") return 4;
 	else if (c == "%") return 4;
-	else if (c == "*") return 4;
-	else 			  return -1;
+	else if (c == "*") return 4;	
+	else if (c == "+") return 5;
+	else if (c == "-") return 5;
+	else return EXIT_FAILURE;
 }

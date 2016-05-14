@@ -1,0 +1,18 @@
+Resolvidos durante a tokenização
+1 - Um dos operandos da expressão está fora da faixa permitida.
+
+3 - Existe um símbolo correspondente a um operador que não está na lista de operadores válidos.
+
+5 - Existe um parêntese fechando sem ter um parêntese abrindo correspondente.
+
+7 - Está faltando um parêntese de fechamento ’)’ para um parêntese de abertura ‘(’ correspondente.
+
+Resolver antes de calcular e depois da tokenização:
+2 - 
+4 -
+6 -
+
+
+Resolver na hora de calcular:
+8 -
+9 -

@@ -37,8 +37,9 @@ int main(int argc, char * argv[]){
     	getline (file, line);
     	cout << line << "\n";
         Expression e (line);
-        e.tokenize();
-        e.printqueue();
+        //e.tokenize();
+        //e.printqueue();
+        e.calculate();
     }
 
     return 0;

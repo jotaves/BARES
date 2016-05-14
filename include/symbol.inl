@@ -13,8 +13,8 @@ Symbol::Symbol (std::string _symbol, bool _isOpnd, int _column){
 }
 
 int Symbol::getValue (void){
-	// Converter aqui.
-	return 0;
+	int number = std::stoi(symbol, 0);
+	return number;
 }
 
 std::string Symbol::getOperator (void){
@@ -39,5 +39,5 @@ bool Symbol::isOperand (){
 }
 
 bool Symbol::isUnary (){
-	return symbol == "+" or symbol == "-";
+	return /*symbol == "+" or */symbol == "-";
 }

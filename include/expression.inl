@@ -97,7 +97,11 @@ void Expression::tokenize (void){
 				addError(i+1, 6);
 				break;
 			}
-			if (i == origExpr.size()-1){
+			if (i == origExpr.size()-1 and (lastWas == 1 or lastWas == -1)){
+				addError(i+1, 6);
+				break;
+			}
+			if (i == origExpr.size()-1 and lastWas == 0){
 				addError(origExpr.size()+1, 2);
 				break;
 			}

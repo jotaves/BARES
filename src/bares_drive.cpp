@@ -12,7 +12,6 @@
 using namespace std;
 
 int main(int argc, char * argv[]){
-	
 	// LEITURA DE ENTRADA E SAÍDA
 	std::string entrada, saida;
 	if (argc > 2 && argc < 4){

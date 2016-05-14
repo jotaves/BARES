@@ -1,17 +1,17 @@
 Resolvidos durante a tokenização
 1 - Um dos operandos da expressão está fora da faixa permitida.
 
+2 - Em alguma parte da expressão está faltando um operando ou existe algum operando em formato errado.
+
 3 - Existe um símbolo correspondente a um operador que não está na lista de operadores válidos.
 
 5 - Existe um parêntese fechando sem ter um parêntese abrindo correspondente.
 
 7 - Está faltando um parêntese de fechamento ’)’ para um parêntese de abertura ‘(’ correspondente.
 
-Resolver antes de calcular e depois da tokenização:
-2 - 
-4 -
-6 -
+4 - Aparentemente o programa encontrou um símbolo extra “perdido” na expressão. (PRECISA DE TESTES)
 
+6 - Apareceu um operador sem seus operandos.
 
 Resolver na hora de calcular:
 8 -

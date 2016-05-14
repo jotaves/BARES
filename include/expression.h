@@ -34,6 +34,8 @@ private:
 	int col = -1;
 	// String para guardar a expressão original.
 	std::string origExpr;
+	// String para guardar a expressão sem espaços entre os valores.
+	std::string noSpace = "";
 	// Guarga a expressão em uma fila de símbolos.
 	QueueAr <Symbol> expression;
 };

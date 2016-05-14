@@ -8,41 +8,23 @@ QueueAr <Symbol> Expression::Infx2Posfx (void){
 }
 
 void Expression::tokenize (void){
-
 	unsigned int foundParenthesis1 = 0;
 	unsigned int foundParenthesis2 = 0;
+	unsigned int foundParenthesis = 0;
+	unsigned int foundUnary = 0;
+	bool hasNumbers = 0;
 	int lastWas = -1; // 0 if operand, 1 if operator
-
-	// LOOKING FOR '(' ERRORS
-	std::string onlyParenthesis = origExpr;
-	// Substitui '(' por '1' e ')' por '(', assim, se sobrar algum no final, haverá erro.
-	if (onlyParenthesis.size()>0){
-		for (auto j(onlyParenthesis.size()-1); j > 0; j--){
-			if(onlyParenthesis[j] == ')'){
-				onlyParenthesis[j] = '1';
-				for(int k(j-1); k >= 0; k--){
-					if(onlyParenthesis[k] == '('){
-						onlyParenthesis[k] = '2';
-						//j = onlyParenthesis.size()-1;
-						break;
-					}
-				}
-			}
-		}
-		for(auto i(0u); i < onlyParenthesis.size(); i++){
-			if(onlyParenthesis[i] == '('){
-				//cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << i+1 << "\n";
-				addError(i+1, 7);
-				return;
-			}
-		}
-	}
 
 	for (auto i(0u); i < origExpr.size(); i++){
 
 		// Looking for final parenthesis and counting.
 		if (origExpr[i] == ')'){
-			foundParenthesis2++;			
+			if (foundParenthesis != 0 and hasNumbers == 0){
+					addError(i+1, 2);
+					break;
+			}else hasNumbers = 0, foundParenthesis = 0;
+			foundParenthesis2++;
+			//foundParenthesis++;		
 
 			if (foundParenthesis2 > foundParenthesis1){
 				// Envia a coluna e o código do erro. A função que receber vai escolher o que aparece primeiro.
@@ -64,10 +46,11 @@ void Expression::tokenize (void){
 			if(lastWas == 0){
 				addError(i+1, 4);
 				break;
-			}			
+			}
 			//cout << "Initial parenthesis found!\n";		
 			
 			foundParenthesis1++;
+			foundParenthesis++;
 
 			Symbol s ("(", true, i);
 			expression.enqueue(s);
@@ -87,24 +70,33 @@ void Expression::tokenize (void){
 
 		// Looking for operators.
 		if (origExpr[i] == '+' or origExpr[i] == '-' or origExpr[i] == '%' or origExpr[i] == '*' or origExpr[i] == '/' or origExpr[i] == '^' ){
-			if (origExpr[i] == '-'){
-				if (lastWas == 1 or lastWas == -1){
-					origExpr[i] = '@';
-				}
-			}
-
-			if((lastWas == 1 or lastWas == -1) and origExpr[i] != '@'){
-				addError(i+1, 6);
-				break;
-			}
+			// Se chegou no fim da expressão e apareceu um símbolo antes ou antes não tinha algo.
 			if (i == origExpr.size()-1 and (lastWas == 1 or lastWas == -1)){
 				addError(i+1, 6);
 				break;
 			}
+
+			// Se chegou no fim da expressão e tem um número antes do sinal.
 			if (i == origExpr.size()-1 and lastWas == 0){
 				addError(origExpr.size()+1, 2);
 				break;
+			}		
+
+			// Substituindo menos unários por @.
+			if (origExpr[i] == '-'){
+				if (lastWas == 1 or lastWas == -1){
+					origExpr[i] = '@';
+					foundUnary++;
+					continue;
+				}
 			}
+
+			// Se anteriormente apareceu um operador ou não apareceu algo e o símbolo atual não for unário.
+			if((lastWas == 1 or lastWas == -1) and origExpr[i] != '@'){
+				addError(i+1, 6);
+				break;
+			}
+
 			//cout << "Operator found!\n";
 			std::string oper = "";
 			// Resolver erro de operando inválido depois q passar pra classe.
@@ -118,11 +110,19 @@ void Expression::tokenize (void){
 
 		// Looking for numbers.
 		if (origExpr[i] > '0'-1 and origExpr[i] < '9'+1){
+			if (foundParenthesis != 0) hasNumbers = 1;
 			if(lastWas == 0){
 				addError(i+1, 4);
 				break;
-			}			
-			std::string number = "";
+			}
+			/*if(i == origExpr.size()-1 and foundParenthesis != 0){
+				addError(i+1, 4);
+				break;
+			}*/
+			std::string number = "";			
+			if(foundUnary != 0 and foundUnary%2 != 0){
+				number += "-";
+			}
 			// Prestar atenção aqui. Possível bug após o fim do while.
 			auto j(i); // Guarda a posição do primeiro número, em caso de erro.
 			while (origExpr[i] > '0'-1 and origExpr[i] < '9'+1){
@@ -163,6 +163,31 @@ void Expression::tokenize (void){
 			break;
 		}
 	}
+
+	// LOOKING FOR '(' ERRORS
+	std::string onlyParenthesis = origExpr;
+	// Substitui '(' por '1' e ')' por '(', assim, se sobrar algum no final, haverá erro.
+	if (onlyParenthesis.size()>0){
+		for (auto j(onlyParenthesis.size()-1); j > 0; j--){
+			if(onlyParenthesis[j] == ')'){
+				onlyParenthesis[j] = '1';
+				for(int k(j-1); k >= 0; k--){
+					if(onlyParenthesis[k] == '('){
+						onlyParenthesis[k] = '2';
+						//j = onlyParenthesis.size()-1;
+						break;
+					}
+				}
+			}
+		}
+		for(auto i(0u); i < onlyParenthesis.size(); i++){
+			if(onlyParenthesis[i] == '('){
+				//cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << i+1 << "\n";
+				addError(i+1, 7);
+				return;
+			}
+		}
+	}	
 	//cout << "Final: " << noSpace << "\n";
 	//cout << onlyParenthesis << "\n";
 	printqueue();
@@ -191,7 +216,7 @@ void Expression::calculate (void){
 		cout << "E" << code << " " << column << "\n";
 	}
 	else{
-		cout << "Calculando!";
+		cout << "Calculando!\n";
 	}
 }
 

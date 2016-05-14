@@ -16,7 +16,7 @@ public:
 
 	// Imprimir a fila de símbolos feita.
 	void printqueue(){
-		cout << expression;
+		cout << expression << "\n";
 	}
 
 	void calculate();

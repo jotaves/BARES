@@ -11,7 +11,7 @@ Resolvidos durante a tokenização
 
 4 - Aparentemente o programa encontrou um símbolo extra “perdido” na expressão. (PRECISA DE TESTES)
 
-6 - Apareceu um operador sem seus operandos.
+6 - Apareceu um operador sem seus operandos. (PRECISA DE TESTES)
 
 Resolver na hora de calcular:
 8 -

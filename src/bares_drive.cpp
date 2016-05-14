@@ -32,7 +32,7 @@ int main(int argc, char * argv[]){
     file.open (entrada);
 
     while (!file.eof()){
-        cout << "\n\n";
+        cout << "\n";
     	getline (file, line);
     	cout << line << "\n";
         Expression e (line);

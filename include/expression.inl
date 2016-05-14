@@ -1,10 +1,36 @@
 #include <string>
-
+#include "stackar.h"
+#include "queuear.h"
 #include "symbol.h"
 
 
-QueueAr <Symbol> Expression::Infx2Posfx (void){
-	return expression;
+void Expression::Infx2Posfx (void){
+	Symbol symb;
+	StackAr <Symbol> stack;
+	while(!expression.isEmpty()){
+		symb = expression.dequeue();
+		if (symb.isOperator() == false){
+			posfixExpression.enqueue(symb);
+		}
+		else{
+			while(!stack.isEmpty() and prcd (stack.top()) >= prcd (symb)){
+				if (prcd (stack.top()) >= prcd(symb)){
+					if (stack.top().getOperator() == "(" or stack.top().getOperator() == ")") stack.pop();
+					else posfixExpression.enqueue (stack.pop());
+				}
+			}
+			stack.push(symb);
+		}
+	}
+	while(!stack.isEmpty()){
+		if (stack.top().getOperator() == "(" or stack.top().getOperator() == ")") stack.pop();
+		else posfixExpression.enqueue(stack.pop());
+	}
+	//return posfixExpression;
+	cout << "Posfix: " << posfixExpression << "\n";
+	/*while(!posfixExpression.isEmpty()){
+		cout << posfixExpression.dequeue();
+	}*/
 }
 
 void Expression::tokenize (void){
@@ -122,6 +148,7 @@ void Expression::tokenize (void){
 			std::string number = "";			
 			if(foundUnary != 0 and foundUnary%2 != 0){
 				number += "-";
+				foundUnary=0;
 			}
 			// Prestar atenção aqui. Possível bug após o fim do while.
 			auto j(i); // Guarda a posição do primeiro número, em caso de erro.
@@ -216,7 +243,8 @@ void Expression::calculate (void){
 		cout << "E" << code << " " << column << "\n";
 	}
 	else{
-		cout << "Calculando!\n";
+		cout << "Calculando?\n";
+		Infx2Posfx();
 	}
 }
 
@@ -224,4 +252,16 @@ void verify (void){
 /*	QueueAr <Symbol> expression;
 	if (expression.getFront()==)
 */
+}
+
+int Expression::prcd(Symbol a){
+	std::string c = a.getOperator();
+	if 		(c == "(") return 6;
+	else if (c == ")") return 1;
+	else if (c == "+") return 5;
+	else if (c == "-") return 5;
+	else if (c == "/") return 4;
+	else if (c == "%") return 4;
+	else if (c == "*") return 4;
+	else 			  return -1;
 }

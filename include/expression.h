@@ -11,8 +11,6 @@ public:
 	Expression (std::string _expression){
 		origExpr = _expression;
 	}
-	// Converte de infixo para posfixo.
-	QueueAr <Symbol> Infx2Posfx (void);
 
 	// Imprimir a fila de símbolos feita.
 	void printqueue(){
@@ -22,6 +20,11 @@ public:
 	void calculate();
 
 private:
+	// Converte de infixo para posfixo.
+	void Infx2Posfx (void);
+
+	// Retorna a precedência de um símbolo.
+	int prcd(Symbol);
 	// Tokeniza a expressão.
 	void tokenize (void);
 	// Verifica problemas em uma expressão já tokenizada.
@@ -38,6 +41,7 @@ private:
 	std::string noSpace = "";
 	// Guarga a expressão em uma fila de símbolos.
 	QueueAr <Symbol> expression;
+	QueueAr <Symbol> posfixExpression;
 };
 
 #include "expression.inl"

@@ -30,15 +30,18 @@ int main(int argc, char * argv[]){
     string line;
 
     file.open (entrada);
-
-    while (!file.eof()){
-        cout << "\n";
-    	getline (file, line);
-    	cout << line << "\n";
-        Expression e (line);
-        //e.tokenize();
-        //e.printqueue();
-        e.calculate();
+    if (file.is_open()){
+        while (!file.eof()){
+            cout << "\n";
+        	getline (file, line);
+        	cout << line << "\n";
+                Expression e (line);
+                //e.tokenize();
+                //e.printqueue();
+                e.calculate();
+        }
+    }else{
+        cout << ">>> Input file wasn't found. Try again.\n";
     }
 
     return 0;

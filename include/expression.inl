@@ -13,8 +13,8 @@ void Expression::Infx2Posfx (void){
 			posfixExpression.enqueue(symb);
 		}
 		else{
-			while(!stack.isEmpty() and prcd (stack.top()) >= prcd (symb)){
-				if (prcd (stack.top()) >= prcd(symb)){
+			while(!stack.isEmpty() and prcd (stack.top()) <= prcd (symb)){
+				if (prcd (stack.top()) <= prcd(symb)){
 					if (stack.top().getOperator() == "(" or stack.top().getOperator() == ")") stack.pop();
 					else posfixExpression.enqueue (stack.pop());
 				}
@@ -176,11 +176,11 @@ void Expression::tokenize (void){
 			//cout << "Number found!\n";
 			continue;
 		}
-		/*
-		if(i == 0 and lastWas == 1){
-			addError(i+1, 6);
+		
+		if(i == 0 and lastWas == -1){
+			addError(i+1, 2);
 			break;
-		}*/
+		}
 		if(lastWas == 1){
 			addError(i+1, 2);
 			break;

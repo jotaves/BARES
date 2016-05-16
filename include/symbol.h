@@ -3,44 +3,51 @@
 
 class Symbol{
 public:
-	// Construtor que cria um símbolo vazio.
+	/** 
+	* @brief Construtor que cria um simbolo vazio
+	*/
 	Symbol (void);
 	
-	// Construtor da classe Symbol.
+	/**
+	* @brief Construtor da classe Symbol
+	* @param _symbol Simbolo
+	* @param _isOpnd Verdadeiro se for operador, falso se for operando
+	* @param _column Coluna do simbolo
+	*/
 	Symbol (std::string, bool, int);
 	
-	// Retorna se o símbolo é operador ou não.
+	/**
+	* @brief Retorna se o simbolo eh operador ou nao
+	* @return Verdadeiro se for operador, falso se nao
+	*/
 	bool isOperator ();
 
-	// Retorna se o símbolo é operando ou não.
-	bool isOperand ();
-
-	// Retorna se o símbolo é um operador unário.
-	bool isUnary();
-
-	// Conversão do símbolo em inteiro. Retorna o valor.
+	/**
+	* @brief Converte um numero em um valor inteiro
+	* @return Valor inteiro
+	*/
 	int getValue (void);
 
-	// Retorna o operador.
+	/**
+	* @brief Retorna o operador
+	* @return Operador
+	*/
 	std::string getOperator (void);
-	
-	// Retorna a coluna do operador.
-	int getColumn (void);
 
-    inline friend std::ostream &operator<< (std::ostream& _os, const Symbol& _oList )
+    /*inline friend std::ostream &operator<< (std::ostream& _os, const Symbol& _oList )
     {
         _os << _oList.symbol;
         return _os;
-    }
+    }*/
 	
 private:
-	// String para armazenar o símbolo.
+	/** String para armazenar o simbolo */
 	std::string symbol = "";
 
-	// Variável para indicar se é operando (verdadeiro) ou operador (falso).
+	/** Variavel para indicar se eh operando (verdadeiro) ou operador (falso) */
 	bool isOpnd;
 
-	// Variável para indicar a coluna do símbolo.
+	/** Variavel para indicar a coluna do simbolo */
 	int column;
 };
 

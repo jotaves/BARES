@@ -8,7 +8,7 @@ int Expression::AvalPosfix(){
 	Symbol symb;
 	StackAr <int> stackint;
 	int opnd1, opnd2;
-	int result = 0;
+	int result;
 
 	while(!posfixExpression.isEmpty()){
 		symb = posfixExpression.dequeue();
@@ -103,7 +103,6 @@ void Expression::tokenize (void){
 	int lastWas = -1; // 0 if operand, 1 if operator, -1 if none of them has appeared yet
 
 	for (auto i(0u); i < origExpr.size(); i++){
-
 		// Looking for final parenthesis and counting.
 		if (origExpr[i] == ')'){
 			if(lastWas == 1){
@@ -301,7 +300,7 @@ void Expression::calculate (void){
 
 int Expression::prcd(Symbol a){
 	std::string c = a.getOperator();
-	if (c == ")" or c == "^") 					return 1;
+	if (c == "^") 								return 1;
 	else if (c == "/" or c == "%" or c == "*") 	return 2;	
 	else if (c == "+" or c == "-") 				return 3;
 	else if (c == "(") 							return 4;

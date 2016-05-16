@@ -1,36 +1,70 @@
 #ifndef STACKAR_H
 #define STACKAR_H
-//#include "AbsStack.h" // Inclui a interface abstrata da pilha .
 
 #include <iostream>
 using namespace std;
 
-// Implementando interface via herança
 template < typename Object >
 class StackAr {
-	public:
-		StackAr( int );
-		~StackAr( void );
+public:
+	/**
+	* @brief Construtor da classe
+	* @param _size Tamanho da pilha 
+	*/	
+	StackAr( int );
 
-		void push ( const Object & );
-		Object pop ( void );
-		Object top ( void ) const;
-		bool isEmpty ( void ) const;
-		void makeEmpty ( void );
+	/**
+	* @brief Destrutor da classe
+	*/	
+	~StackAr( void );
 
-        inline friend std::ostream &operator<< (std::ostream& _os, const StackAr<Object>& _oList )
-        {
-            _os << "[ ";
-            for( int i(0) ; i < _oList.topo ; ++i )
-                _os << "{" << _oList.P[ i ] << "} ";
-            _os << "]";
-            return _os;
-        }
+	/**
+	* @brief Adiciona um elemento a pilha
+	* @param _x Elemento a ser adicionado
+	*/
+	void push ( const Object & );
 
-	private:
-		Object *P;
-		int topo;
-		int capacity;	
+	/**
+	* @brief Retira elemento da pilha
+	* @return Elemento retirado
+	*/
+	Object pop ( void );
+
+	/**
+	* @brief Retorna elemento no topo da pilha
+	* @return Elemento no topo da pilha
+	*/	
+	Object top ( void ) const;
+
+	/**
+	* @brief Retorna se a pilha esta vazia
+	* @return Verdadeiro se estiver vazia, falso se nao estiver
+	*/		
+	bool isEmpty ( void ) const;
+	
+	/**
+	* @brief Esvazia a pilha
+	*/		
+	void makeEmpty ( void );
+
+	/*inline friend std::ostream &operator<< (std::ostream& _os, const StackAr<Object>& _oList )
+    {
+        _os << "[ ";
+        for( int i(0) ; i < _oList.topo ; ++i )
+            _os << "{" << _oList.P[ i ] << "} ";
+        _os << "]";
+        return _os;
+    }*/
+
+private:
+	/** Ponteiro para Object */
+	Object *P;
+
+	/** Armazena posicao do elemento do topo da pilha */
+	int topo;
+	
+	/** Armazena a capacidade da pilha */
+	int capacity;	
 };
 
 #include "stackar.inl"

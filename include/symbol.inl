@@ -21,23 +21,7 @@ std::string Symbol::getOperator (void){
 	return symbol;
 }
 
-int Symbol::getColumn (void){
-	return column;
-}
-
 bool Symbol::isOperator (){
 	//return symbol == "+" or symbol == "-" or symbol == "%" or symbol == "*" or symbol == "/" or symbol == "^";
 	return isOpnd;
-}
-
-bool Symbol::isOperand (){
-	for (auto i(0u); i < symbol.size(); i++){
-		if (symbol[i] > '0'-1 and symbol[i] < '9'-1) continue;
-		else return false;
-	}
-	return true;
-}
-
-bool Symbol::isUnary (){
-	return /*symbol == "+" or */symbol == "-";
 }

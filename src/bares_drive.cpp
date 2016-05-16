@@ -32,9 +32,9 @@ int main(int argc, char * argv[]){
     file.open (entrada);
     if (file.is_open()){
         while (!file.eof()){
-            cout << "\n";
+            //cout << "\n";
         	getline (file, line);
-        	cout << line << "\n";
+        	//cout << line << "\n";
                 Expression e (line);
                 //e.tokenize();
                 //e.printqueue();

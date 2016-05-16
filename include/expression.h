@@ -20,6 +20,7 @@ public:
 	void calculate();
 
 private:
+	int AvalPosfix();	
 	// Converte de infixo para posfixo.
 	void Infx2Posfx (void);
 
@@ -27,8 +28,6 @@ private:
 	int prcd(Symbol);
 	// Tokeniza a expressão.
 	void tokenize (void);
-	// Verifica problemas em uma expressão já tokenizada.
-	void verify (void);
 	// Compara se um erro da expressão aparece primeiro que outro. Se sim, possui prioridade e substitui o erro.
 	void addError (const int _col, const int _code);
 	// Retorna o primeiro erro na expressão.

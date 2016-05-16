@@ -18,14 +18,14 @@ class StackAr {
 		bool isEmpty ( void ) const;
 		void makeEmpty ( void );
 
-        /*inline friend std::ostream &operator<< (std::ostream& _os, const StackAr<Object>& _oList )
+        inline friend std::ostream &operator<< (std::ostream& _os, const StackAr<Object>& _oList )
         {
             _os << "[ ";
             for( int i(0) ; i < _oList.topo ; ++i )
                 _os << "{" << _oList.P[ i ] << "} ";
             _os << "]";
             return _os;
-        }*/
+        }
 
 	private:
 		Object *P;

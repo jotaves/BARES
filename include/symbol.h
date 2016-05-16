@@ -35,7 +35,7 @@ public:
 	
 private:
 	// String para armazenar o símbolo.
-	std::string symbol;
+	std::string symbol = "";
 
 	// Variável para indicar se é operando (verdadeiro) ou operador (falso).
 	bool isOpnd;

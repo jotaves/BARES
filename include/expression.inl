@@ -1,8 +1,56 @@
 #include <string>
+#include <cmath>
 #include "stackar.h"
 #include "queuear.h"
 #include "symbol.h"
 
+int Expression::AvalPosfix(){
+	Symbol symb;
+	StackAr <int> stackint;
+	int opnd1, opnd2;
+	float result;
+
+	while(!posfixExpression.isEmpty()){
+		symb = posfixExpression.dequeue();
+		if (!symb.isOperator()){
+			//cout << symb.getValue() << "\n";
+			stackint.push(symb.getValue());
+		}
+		else{
+			opnd2 = stackint.pop();
+			opnd1 = stackint.pop();
+			if (symb.getOperator() == "+"){
+				result = opnd1 + opnd2;
+			}
+			if (symb.getOperator() == "-"){
+				result = opnd1 - opnd2;
+			}
+			if (symb.getOperator() == "/"){
+				if (opnd2 == 0){
+					addError(0, 8);
+					return -1;
+				}
+				result = (float) (opnd1 / opnd2);
+			}
+			if (symb.getOperator() == "*"){
+				result = opnd1 * opnd2;
+			}
+			if (symb.getOperator() == "%"){
+				result = opnd1 % opnd2;
+			}
+			if (symb.getOperator() == "^"){
+				result = std::pow (opnd1, opnd2);
+			}
+			stackint.push(result);
+		}
+	}
+	result = stackint.pop();
+	if (result > 32767 or result < -32768){
+		addError(0, 9);
+		return -1;
+	}
+	return result;
+}
 
 void Expression::Infx2Posfx (void){
 	Symbol symb;
@@ -13,12 +61,16 @@ void Expression::Infx2Posfx (void){
 			posfixExpression.enqueue(symb);
 		}
 		else{
-			while(!stack.isEmpty() and prcd (stack.top()) <= prcd (symb)){
-				if (prcd (stack.top()) <= prcd(symb)){
-					if (stack.top().getOperator() == "(" or stack.top().getOperator() == ")") stack.pop();
-					else posfixExpression.enqueue (stack.pop());
+				//cout << stack << "\n";
+			if (symb.getOperator() != "("){
+				while(!stack.isEmpty() and prcd (stack.top()) <= prcd (symb)){
+					if (prcd (stack.top()) <= prcd(symb)){
+						if (stack.top().getOperator() == "(" or stack.top().getOperator() == ")") stack.pop();
+						else posfixExpression.enqueue (stack.pop());
+					}
 				}
 			}
+			//cout << stack << "\n";
 			stack.push(symb);
 		}
 	}
@@ -27,7 +79,7 @@ void Expression::Infx2Posfx (void){
 		else posfixExpression.enqueue(stack.pop());
 	}
 	//return posfixExpression;
-	cout << "Posfix: " << posfixExpression << "\n";
+	//cout << "Posfix: " << posfixExpression << "\n";
 	/*while(!posfixExpression.isEmpty()){
 		cout << posfixExpression.dequeue();
 	}*/
@@ -176,11 +228,11 @@ void Expression::tokenize (void){
 			//cout << "Number found!\n";
 			continue;
 		}
-		
-		if(i == 0 and lastWas == -1){
+		if(lastWas == -1){
 			addError(i+1, 2);
 			break;
 		}
+
 		if(lastWas == 1){
 			addError(i+1, 2);
 			break;
@@ -217,7 +269,7 @@ void Expression::tokenize (void){
 	}	
 	//cout << "Final: " << noSpace << "\n";
 	//cout << onlyParenthesis << "\n";
-	printqueue();
+	//printqueue();
 }
 
 
@@ -238,32 +290,35 @@ void Expression::calculate (void){
 	tokenize();
 	int column;
 	int code = firstError(column);
-	
 	if (code != -1){
 		cout << "E" << code << " " << column << "\n";
 	}
 	else{
-		cout << "Calculando?\n";
+		if (expression.isEmpty()) {
+			cout << "\n";
+			return;
+		}
+		//cout << "Calculando?\n";
 		Infx2Posfx();
+		int result = AvalPosfix();
+		code = firstError(column);
+		if (code != -1){
+			cout << "E" << code << "\n";
+		}
+		else cout << result << "\n";
 	}
-}
-
-void verify (void){
-/*	QueueAr <Symbol> expression;
-	if (expression.getFront()==)
-*/
 }
 
 int Expression::prcd(Symbol a){
 	std::string c = a.getOperator();
 	//cout << "teste: " << a.getOperator() << "\n";
-	if 		(c == "(") return 1;
-	else if (c == ")") return 1;
-	else if (c == "^") return 3;
-	else if (c == "/") return 4;
-	else if (c == "%") return 4;
-	else if (c == "*") return 4;	
-	else if (c == "+") return 5;
-	else if (c == "-") return 5;
+	if 		(c == "(") return 5;
+	else if (c == ")") return 4;
+	else if (c == "^") return 1;
+	else if (c == "/") return 2;
+	else if (c == "%") return 2;
+	else if (c == "*") return 2;	
+	else if (c == "+") return 3;
+	else if (c == "-") return 3;
 	else return EXIT_FAILURE;
 }

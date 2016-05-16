@@ -1,5 +1,15 @@
-// g++ -Wall -std=c++11 src/bares_drive.cpp -o bin/bares -I include/
-// ./bin/bares data/entrada9.txt
+/**
+ *  @mainpage Basic ARithmetic Expression Evaluator based on Stacks
+ *  @author Carlos Vinicius Fernandes Rodrigues
+ *  @author Joao Victor Bezerra Barboza
+ *  @date 2016
+ *  @version 1.0
+ *
+ *  @file bares_drive.cpp
+ *  @brief Arquivo principal
+ *
+ *  Arquivo que eh compilado e executado.
+ */
 
 #include <iostream>
 #include <string>

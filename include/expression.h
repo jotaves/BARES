@@ -1,3 +1,8 @@
+/**
+ *  @file expression.h
+ *  @brief Cabecalho da classe Expression
+ */
+
 #ifndef EXPRESSION_H
 #define EXPRESSION_H
 

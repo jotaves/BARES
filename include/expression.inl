@@ -1,3 +1,8 @@
+/**
+ *  @file expression.inl
+ *  @brief Implementacao da classe Expression
+ */
+
 #include <string>
 #include <cmath>
 #include "stackar.h"

@@ -1,3 +1,8 @@
+/**
+ *  @file stackar.inl
+ *  @brief Implementacao da classe StackAr
+ */
+
 #include <stdexcept>
 
 template < typename Object >

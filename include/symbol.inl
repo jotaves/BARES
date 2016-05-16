@@ -1,3 +1,8 @@
+/**
+ *  @file symbol.inl
+ *  @brief Implementacao da classe Symbol
+ */
+
 #include <string>
 
 Symbol::Symbol (void){

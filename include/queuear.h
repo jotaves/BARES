@@ -1,3 +1,8 @@
+/**
+ *  @file queuear.h
+ *  @brief Cabecalho da classe QueueAr (fila)
+ */
+
 #ifndef QUEUEAR_H
 #define QUEUEAR_H
 

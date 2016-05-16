@@ -1,3 +1,8 @@
+/**
+ *  @file queuear.inl
+ *  @brief Implementacao da classe QueueAr (fila)
+ */
+
 #include "queuear.h"
 #include <stdexcept>
 

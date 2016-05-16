@@ -1,3 +1,8 @@
+/**
+ *  @file stackar.h
+ *  @brief Cabecalho da classe StackAr (pilha)
+ */
+
 #ifndef STACKAR_H
 #define STACKAR_H
 

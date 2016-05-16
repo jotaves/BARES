@@ -1,3 +1,8 @@
+/**
+ *  @file symbol.h
+ *  @brief Cabecalho da classe Symbol
+ */
+
 #ifndef SYMBOL_H
 #define SYMBOL_H
 

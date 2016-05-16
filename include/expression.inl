@@ -13,13 +13,11 @@ int Expression::AvalPosfix(){
 	while(!posfixExpression.isEmpty()){
 		symb = posfixExpression.dequeue();
 		if (!symb.isOperator()){
-			//cout << symb.getValue() << "\n";
 			stackint.push(symb.getValue());
 		}
 		else{
 			opnd2 = stackint.pop();
 			opnd1 = stackint.pop();
-			//cout << opnd1 << " " << symb.getOperator() << " " << opnd2 << " = ";
 
 			if (symb.getOperator() == "+"){
 				result = opnd1 + opnd2;
@@ -54,7 +52,6 @@ int Expression::AvalPosfix(){
 			}
 			stackint.push(result);
 		}
-		//cout << stackint.top() << "\n";
 	}
 	result = stackint.pop();
 	if (result > 32767 or result < -32768){
@@ -73,7 +70,6 @@ void Expression::Infx2Posfx (void){
 			posfixExpression.enqueue(symb);
 		}
 		else{
-				//cout << stack << "\n";
 			if (symb.getOperator() == ")"){
 				while(stack.top().getOperator() != "("){
 					posfixExpression.enqueue (stack.pop());
@@ -90,51 +86,44 @@ void Expression::Infx2Posfx (void){
 				}
 				stack.push(symb);
 			}
-			//cout << stack << "\n";
-
 		}
 	}
 	while(!stack.isEmpty()){
 		if (stack.top().getOperator() == "(" or stack.top().getOperator() == ")") stack.pop();
 		else posfixExpression.enqueue(stack.pop());
 	}
-	//return posfixExpression;
-	cout << "\nPosfix: " << posfixExpression << "\n";
-	/*while(!posfixExpression.isEmpty()){
-		cout << posfixExpression.dequeue();
-	}*/
 }
 
 void Expression::tokenize (void){
 	unsigned int foundParenthesis1 = 0; // Counting opening parenthesis
 	unsigned int foundParenthesis2 = 0; // Counting closing parenthesis
-	unsigned int foundParenthesis = 0;
-	unsigned int foundUnary = 0;
-	bool hasNumbers = 0;
-	int lastWas = -1; // 0 if operand, 1 if operator
+	bool foundParenthesis = 0; // True if found opening parenthesis
+	bool foundUnary = 0; // True if found unary, false if not
+	bool hasNumbers = 0; // True if found numbers inside parenthesis
+	int lastWas = -1; // 0 if operand, 1 if operator, -1 if none of them has appeared yet
 
 	for (auto i(0u); i < origExpr.size(); i++){
 
 		// Looking for final parenthesis and counting.
 		if (origExpr[i] == ')'){
+			if(lastWas == 1){
+				addError(i+1, 2);
+				break;
+			}	
 			if (foundParenthesis != 0 and hasNumbers == 0){
-					addError(i+1, 2);
-					break;
+				addError(i+1, 2);
+				break;
 			}else hasNumbers = 0, foundParenthesis = 0;
+			
 			foundParenthesis2++;
-			//foundParenthesis++;		
 
 			if (foundParenthesis2 > foundParenthesis1){
-				// Envia a coluna e o código do erro. A função que receber vai escolher o que aparece primeiro.
-				// Tipo: if (_col < _menorcol) _menorcol = _col; cod_error = _cod. 
-				//cout << "Mismatch ’)’: column " << i+1 << ".\n";
 				addError(i+1, 5);
 				break;
 			}
 			
 			Symbol s (")", true, i);
 			expression.enqueue(s);
-			//lastWas = 0;
 			continue;
 		}
 
@@ -143,42 +132,36 @@ void Expression::tokenize (void){
 			if(lastWas == 0){
 				addError(i+1, 4);
 				break;
-			}
-			//cout << "Initial parenthesis found!\n";		
+			}		
 			
 			foundParenthesis1++;
 			foundParenthesis++;
 
 			Symbol s ("(", true, i);
 			expression.enqueue(s);
-			//cout << "Found: " << foundParenthesis << "\n";
-			//lastWas = 0; // WARNING, I think it can generate a bug. Not sure if this line is necessary.
 			continue;
 		}
 
 		// Looking for white space.
 		if (origExpr[i] == ' '){
-			//cout << "White space found!\n";
-			continue; // Ignore it.
+			continue; // Ignoring white spaces.
 		}
-
-		// Looking for operators (+/-)
 
 		// Looking for operators.
 		if (origExpr[i] == '+' or origExpr[i] == '-' or origExpr[i] == '%' or origExpr[i] == '*' or origExpr[i] == '/' or origExpr[i] == '^' ){
-			// Se chegou no fim da expressão e apareceu um símbolo antes ou antes não tinha algo.
+			// If (1) It's the end of the expression and appeared an operator before; or (2) There was nothing before this operator.
 			if (i == origExpr.size()-1 and (lastWas == 1 or lastWas == -1)){
 				addError(i+1, 6);
 				break;
 			}
 
-			// Se chegou no fim da expressão e tem um número antes do sinal.
+			// If it's the end of the expression and there's a number before the operator.
 			if (i == origExpr.size()-1 and lastWas == 0){
 				addError(origExpr.size()+1, 2);
 				break;
 			}		
 
-			// Substituindo menos unários por @.
+			// Replacing unary minus with @.
 			if (origExpr[i] == '-'){
 				if (lastWas == 1 or lastWas == -1){
 					origExpr[i] = '@';
@@ -187,15 +170,13 @@ void Expression::tokenize (void){
 				}
 			}
 
-			// Se anteriormente apareceu um operador ou não apareceu algo e o símbolo atual não for unário.
+			// If (1) There was an operator before or didn't appear something; and (2) The current symbol isn't unary.
 			if((lastWas == 1 or lastWas == -1) and origExpr[i] != '@'){
 				addError(i+1, 6);
 				break;
 			}
 
-			//cout << "Operator found!\n";
 			std::string oper = "";
-			// Resolver erro de operando inválido depois q passar pra classe.
 			oper += origExpr[i];
 			Symbol s (oper, true, i);
 			expression.enqueue(s);
@@ -210,16 +191,13 @@ void Expression::tokenize (void){
 				addError(i+1, 4);
 				break;
 			}
-			/*if(i == origExpr.size()-1 and foundParenthesis != 0){
-				addError(i+1, 4);
-				break;
-			}*/
+
 			std::string number = "";			
 			if(foundUnary != 0 and foundUnary%2 != 0){
 				number += "-";
 				foundUnary=0;
 			}
-			// Prestar atenção aqui. Possível bug após o fim do while.
+
 			auto j(i); // Guarda a posição do primeiro número, em caso de erro.
 			while (origExpr[i] > '0'-1 and origExpr[i] < '9'+1){
 				number += origExpr[i];
@@ -241,19 +219,21 @@ void Expression::tokenize (void){
 
 			i--; // Para não pular o próximo elemento, já que while só termina quando o elemento não for número.
 			lastWas = 0;
-			//cout << "Number found!\n";
 			continue;
 		}
-		if(lastWas == -1){
+
+		// If a symbol not listed was found.
+		if(lastWas == -1){ // And there's nothing before.
 			addError(i+1, 2);
 			break;
 		}
 
-		if(lastWas == 1){
+		if(lastWas == 1){ // And there's an operator before.
 			addError(i+1, 2);
 			break;
 		}
-		if(lastWas == 0){
+
+		if(lastWas == 0){ // And there's a number before.
 			addError(i+1, 3);
 			break;
 		}
@@ -261,34 +241,30 @@ void Expression::tokenize (void){
 
 	// LOOKING FOR '(' ERRORS
 	std::string onlyParenthesis = origExpr;
-	// Substitui '(' por '1' e ')' por '(', assim, se sobrar algum no final, haverá erro.
+	// Percorre a expressão de trás para frente, substituindo ')' por '2' e o '(' correspondente por '1' (poderia ser qualquer outro símbolo).
 	if (onlyParenthesis.size()>0){
 		for (auto j(onlyParenthesis.size()-1); j > 0; j--){
 			if(onlyParenthesis[j] == ')'){
-				onlyParenthesis[j] = '1';
+				onlyParenthesis[j] = '2';
 				for(int k(j-1); k >= 0; k--){
 					if(onlyParenthesis[k] == '('){
-						onlyParenthesis[k] = '2';
-						//j = onlyParenthesis.size()-1;
+						onlyParenthesis[k] = '1';
 						break;
 					}
 				}
 			}
 		}
+
+		// Looking for missing '('
 		for(auto i(0u); i < onlyParenthesis.size(); i++){
 			if(onlyParenthesis[i] == '('){
-				//cout << "Missing closing ‘)’ to match opening ‘(’ at: column " << i+1 << "\n";
 				addError(i+1, 7);
 				return;
 			}
 		}
-	}	
-	//cout << onlyParenthesis << "\n";
-	//printqueue();
+	}
 }
 
-
-//CRIAR UMA CLASSE PARA ERRORS DEPOIS
 void Expression::addError (const int _col, const int _code){
 	if (col > _col or col == -1){
 		errorCode = _code;
@@ -306,7 +282,6 @@ void Expression::calculate (void){
 	int column;
 	int code = firstError(column);
 	if (code != -1){
-		//cout << ">>> " << origExpr << " = ";
 		cout << "E" << code << " " << column << "\n";
 	}
 	else{
@@ -314,8 +289,6 @@ void Expression::calculate (void){
 			cout << "\n";
 			return;
 		}
-		//cout << "Calculando?\n";
-		cout << ">>> " << origExpr << " = ";
 		Infx2Posfx();
 		int result = AvalPosfix();
 		code = firstError(column);
@@ -328,14 +301,9 @@ void Expression::calculate (void){
 
 int Expression::prcd(Symbol a){
 	std::string c = a.getOperator();
-	//cout << "teste: " << a.getOperator() << "\n";
-	if 		(c == "(") return 4;
-	else if (c == ")") return 0;
-	else if (c == "^") return 1;
-	else if (c == "/") return 2;
-	else if (c == "%") return 2;
-	else if (c == "*") return 2;	
-	else if (c == "+") return 3;
-	else if (c == "-") return 3;
-	else return EXIT_FAILURE;
+	if (c == ")" or c == "^") 					return 1;
+	else if (c == "/" or c == "%" or c == "*") 	return 2;	
+	else if (c == "+" or c == "-") 				return 3;
+	else if (c == "(") 							return 4;
+	else 									   return -1;
 }

@@ -36,13 +36,20 @@ Nenhum caso de anormalidades foi detectado durantes os testes realizados na prod
 
 ### Como compilar
 Para compilar, abra o terminal na pasta onde se encontra o BARES e digite:
+
 `g++ -Wall -std=c++11 src/bares_drive.cpp -o bin/bares -I include/`
+
 Para executar e exibir os resultados no terminal, digite:
+
 `./bin/bares [nome do arquivo de entrada]`
+
 E para gerar um arquivo com os resultados:
+
 `./bin/bares [nome do arquivo de entrada] >> [nome do arquivo de saída]`
 
 ### Autores
 Desenvolvido por:
+
 	João Victor Bezerra Barboza
+
 	Carlos Vincius Fernandes Rodrigues

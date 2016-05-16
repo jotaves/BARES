@@ -97,10 +97,10 @@ void Expression::Infx2Posfx (void){
 void Expression::tokenize (void){
 	unsigned int foundParenthesis1 = 0; // Counting opening parenthesis
 	unsigned int foundParenthesis2 = 0; // Counting closing parenthesis
+	unsigned int foundUnary = 0; // True if found unary, false if not
+	short int lastWas = -1; // 0 if operand, 1 if operator, -1 if none of them has appeared yet	
 	bool foundParenthesis = 0; // True if found opening parenthesis
-	bool foundUnary = 0; // True if found unary, false if not
 	bool hasNumbers = 0; // True if found numbers inside parenthesis
-	int lastWas = -1; // 0 if operand, 1 if operator, -1 if none of them has appeared yet
 
 	for (auto i(0u); i < origExpr.size(); i++){
 		// Looking for final parenthesis and counting.

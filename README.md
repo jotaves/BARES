@@ -15,9 +15,9 @@ Os valores expressáveis em um termo e no resultado da operação têm que estar
 	Parênteses:		--> ( ) <--
 	Adição:			-->  +  <-- 
 	Subtração:		-->  -  <--
-	Multiplicação:	-->  *  <--
+	Multiplicação:		-->  *  <--
 	Divisão:		-->  /  <--
-	Exponenciação:	-->  ^  <--
+	Exponenciação:		-->  ^  <--
 	Módulo:			-->  %  <--
 
 ### Erros detectáveis pelo código:

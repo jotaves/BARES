@@ -1,5 +1,5 @@
 /**
- *  @mainpage Basic ARithmetic Expression Evaluator based on Stacks
+ *  @mainpage Basic Arithmetic Expression Evaluator based on Stacks
  *  @author Carlos Vinicius Fernandes Rodrigues
  *  @author Joao Victor Bezerra Barboza
  *  @date 2016
@@ -20,7 +20,11 @@
 #include "symbol.h"
 
 using namespace std;
-
+/**
+ *  @brief Main function
+ * 
+ *  Tal função é usada para executar o resto do código.
+ */
 int main(int argc, char * argv[]){
 	// LEITURA DE ENTRADA E SAÍDA
 	std::string entrada/*, saida*/;

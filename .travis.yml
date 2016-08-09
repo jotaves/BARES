@@ -8,4 +8,4 @@ compiler:
   - clang
 
 script:
-  - g++ -Wall -std=c++11 src/bares_drive.cpp -o bin/bares -I include/ && ./bin/bares data/out.txt
+  - g++ -Wall -std=c++11 src/bares_drive.cpp -o bin/bares -I include/ && ./bin/bares entrada9.txt

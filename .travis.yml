@@ -8,4 +8,4 @@ compiler:
   - clang
 
 script:
-  - clang++ -std=c++11 src/* -I include -o bares && ./bares input.dat output.dat
+  - ./bin/bares data/out.txt
